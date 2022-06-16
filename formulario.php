@@ -5,10 +5,21 @@ use App\Model\Conexao;
 require_once "App/Model/Conexao.php";
 $conn = Conexao::getConn();
 
-/** @var TYPE_NAME $sql */
-$sql = "CREATE TABLE formulario.mensagem (email varchar(100) NOT NULL, whatsapp INTEGER NOT NULL, mensagem VARCHAR(255) NOT NULL)";
-$stmt = Conexao::getConn()->prepare($sql);
-$stmt->execute();
+$email = $_POST['email'];
+$celular = $_POST['celular'];
+$mensagem = $_POST['mensagem'];
 
-echo "inserido com sucesso";
+if (isset($_POST['send'])) {
+    $sql = "INSERT INTO formulario (email, celular, mensagem) VALUES (:email, :celular, :mensagem)";
+    $stmt = Conexao::getConn()->prepare($sql);
+    $stmt->bindValue(':email', $email);
+    $stmt->bindValue(':celular', $celular);
+    $stmt->bindValue(':mensagem', $mensagem);
+    $stmt->execute();
+}
+
+
+
+
+
 ?>
